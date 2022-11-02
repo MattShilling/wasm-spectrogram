@@ -16,5 +16,8 @@ cmake \
     -B ${BUILD_PATH} \
     -G Ninja
 
+# Format.
+clang-format-11 src/*.h src/*.cc -i
+
 # Build.
 cd ${BUILD_PATH} && ninja

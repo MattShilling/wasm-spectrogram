@@ -1,4 +1,6 @@
-add_library(test test.cc)
+add_library(camera camera.cc)
+add_library(events events.cc)
+add_library(window window.cc)
 
 add_executable(main main.cc)
 
@@ -11,9 +13,11 @@ add_executable(main main.cc)
 # explicitly instructed to include the object file.
 target_link_libraries(main
     -Wl,--whole-archive
-    test
+    camera
+    events
+    window
 )
 
 set_target_properties(main PROPERTIES
-    LINK_FLAGS "-s WASM=1 -s --bind"
+    LINK_FLAGS "-s USE_SDL=2 -s FULL_ES2=1 -s WASM=0"
 )
