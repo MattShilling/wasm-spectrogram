@@ -1,0 +1,5 @@
+/* CMAKE WILL NOT BUILD AN 
+   EXECUTABLE FROM STATIC
+   LIBRARIES ALONE 
+   SEE: CMakeLists.txt */
+int main() {}
