@@ -24,7 +24,7 @@ private:
   // Window.
   SDL_Window *mpWindow;
   Uint32 mWindowID;
-  void InitializeViewport(int width, int height);
+  void SetViewport(int width, int height);
   void initWindow(const char *title);
 
   // Mouse input

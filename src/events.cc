@@ -30,10 +30,10 @@ EventHandler::EventHandler(Window &window, Camera &camera)
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
   // Initialize viewport.
-  InitializeViewport(camera.windowSize().width, camera.windowSize().height);
+  SetViewport(camera.windowSize().width, camera.windowSize().height);
 }
 
-void EventHandler::InitializeViewport(int width, int height) {
+void EventHandler::SetViewport(int width, int height) {
   glViewport(0, 0, width, height);
   mCamera.setWindowSize(width, height);
 }
@@ -121,7 +121,7 @@ void EventHandler::processEvents() {
         if (event.window.windowID == mWindowID) {
           int width = event.window.data1;
           int height = event.window.data2;
-          InitializeViewport(width, height);
+          SetViewport(width, height);
         }
       }
       break;

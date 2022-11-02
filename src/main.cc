@@ -4,7 +4,7 @@
 //
 // Setup:
 //     Install emscripten:
-//     http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html
+//     https://emscripten.org/docs/getting_started/downloads.html
 //
 // Build:
 //     emcc -std=c++11 hello_triangle.cpp events.cpp camera.cpp -s USE_SDL=2 -s
