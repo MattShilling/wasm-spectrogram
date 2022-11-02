@@ -2,7 +2,8 @@
 // Camera - pan, zoom, and window resizing
 //
 #include "camera.h"
-#include <SDL_opengles2.h>
+
+#include <SDL2/SDL_opengles2.h>
 #include <algorithm>
 
 Camera::Camera()

@@ -3,8 +3,7 @@
 //
 #include "events.h"
 
-#include <SDL.h>
-#include <SDL_opengles2.h>
+#include <SDL2/SDL_opengles2.h>
 #include <algorithm>
 
 #include "camera.h"
@@ -37,8 +36,6 @@ EventHandler::EventHandler(Window &window, Camera &camera)
 void EventHandler::InitializeViewport(int width, int height) {
   glViewport(0, 0, width, height);
   mCamera.setWindowSize(width, height);
-  printf("setting window size to %dx%d\n", width, height);
-  //SDL_SetWindowSize(mpWindow, width, height);
 }
 
 void EventHandler::swapWindow() { SDL_GL_SwapWindow(mpWindow); }
@@ -119,8 +116,6 @@ void EventHandler::processEvents() {
     }
 
     case SDL_WINDOWEVENT: {
-      printf("window event! event = %d, id = %d\n", event.window.event,
-             event.window.windowID);
       if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED ||
           event.window.event == SDL_WINDOWEVENT_RESIZED) {
         if (event.window.windowID == mWindowID) {

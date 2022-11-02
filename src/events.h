@@ -4,8 +4,7 @@
 
 #pragma once
 
-#include <SDL.h>
-#include <SDL_opengles2.h>
+#include <SDL2/SDL_opengles2.h>
 
 #include "camera.h"
 #include "window.h"
