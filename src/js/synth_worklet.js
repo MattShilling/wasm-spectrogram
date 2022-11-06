@@ -33,8 +33,8 @@ class DualFmOscWorklet extends AudioWorkletProcessor {
 
         // Copy audio output buffer to worklet outputs.
         for (let i = 0; i < this.audioOutBuffer.length; i++) {
-            outputs[0][0][i] = this.kernel.AudioFrame.scaleInput(output[i].chan[0]);
-            outputs[0][1][i] = this.kernel.AudioFrame.scaleInput(output[i].chan[1]);
+            outputs[0][0][i] = this.kernel.scaleInput(output[i].chan[0] * 0.05);
+            outputs[0][1][i] = this.kernel.scaleInput(output[i].chan[1] * 0.05);
         }
 
         return true;

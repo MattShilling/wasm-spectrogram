@@ -36,24 +36,12 @@ AudioFrame<SampleType, UsedBits, NumChannels>::sign_extend(
   }
 }
 
-template struct AudioFrame<uint32_t, sizeof(uint32_t) * 8, 2>;
+template class AudioFrame<uint32_t, 24, 2>;
 
 #include <emscripten/bind.h>
 EMSCRIPTEN_BINDINGS(AudioFrame) {
-  emscripten::class_<AudioFrame<uint32_t, sizeof(uint32_t) * 8, 2>>(
-      "AudioFrame")
-      .constructor<>()
-      // .property("chan_one",
-      //           &AudioFrame<uint32_t, sizeof(uint32_t) * 8,
-      //           2>::getChannelOne, &AudioFrame<uint32_t, sizeof(uint32_t) *
-      //           8, 2>::setChannelOne)
-      // .property("chan_two",
-      //           &AudioFrame<uint32_t, sizeof(uint32_t) * 8,
-      //           2>::getChannelTwo, &AudioFrame<uint32_t, sizeof(uint32_t) *
-      //           8, 2>::setChannelTwo)
-      .class_function(
-          "scaleInput",
-          &AudioFrame<uint32_t, sizeof(uint32_t) * 8, 2>::scaleInput);
+  emscripten::function("scaleInput", &AudioFrame<uint32_t, 24, 2>::scaleInput);
+
   emscripten::value_array<std::array<uint32_t, 2>>("array_uint32_t_2")
       .element(emscripten::index<0>())
       .element(emscripten::index<1>());

@@ -21,14 +21,6 @@ DualFmOsc::process(AudioStreamConfig::AudioInBuffer &in_buffer,
 
 #include <emscripten/bind.h>
 EMSCRIPTEN_BINDINGS(DualFmOsc) {
-  // emscripten::value_array<std::array<uint32_t, 2>>("array_uint32_t_2")
-  //     .element(emscripten::index<0>())
-  //     .element(emscripten::index<1>());
-
-  // emscripten::value_object<AudioFrame<uint32_t, 24, 2>>(
-  //     "AudioFrame<uint32_t, 24, 2>")
-  //     .field("chan", &AudioFrame<uint32_t, 24, 2>::chan);
-
   emscripten::value_array<std::array<AudioFrame<uint32_t, 24, 2>, 32>>(
       "array_AudioFrame<uint32_t, 24, 2>_32")
       .element(emscripten::index<0>())
@@ -66,6 +58,5 @@ EMSCRIPTEN_BINDINGS(DualFmOsc) {
 
   emscripten::class_<DualFmOsc>("DualFmOsc")
       .constructor<>()
-      .function("process", &DualFmOsc::process,
-                emscripten::allow_raw_pointers());
+      .function("process", &DualFmOsc::process);
 }

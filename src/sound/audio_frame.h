@@ -13,7 +13,7 @@
 
 template <typename SampleType, int UsedBits = sizeof(SampleType) * 8,
           int NumChannels = 2>
-struct AudioFrame {
+class AudioFrame {
   static_assert((sizeof(SampleType) * 8u) >= UsedBits,
                 "SampleType is smaller than the specified width");
 
@@ -27,12 +27,6 @@ public:
   static inline constexpr SampleType scaleOutput(const float val);
 
   static inline constexpr SampleType sign_extend(const SampleType &v) noexcept;
-
-  SampleType getChannelOne() const { return chan[0]; }
-  void setChannelOne(SampleType v) { chan[0] = v; }
-
-  SampleType getChannelTwo() const { return chan[1]; }
-  void setChannelTwo(SampleType v) { chan[1] = v; }
 
   std::array<SampleType, NumChannels> chan;
 };
