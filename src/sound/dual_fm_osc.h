@@ -16,6 +16,7 @@ class DualFmOsc {
   SineOscillator<48000> carrier{250};
 
 public:
-  void process(AudioStreamConfig::AudioInBuffer &in_buffer,
-               AudioStreamConfig::AudioOutBuffer &out_buffer);
+  AudioStreamConfig::AudioOutBuffer &
+  process(AudioStreamConfig::AudioInBuffer &in_buffer,
+          AudioStreamConfig::AudioOutBuffer &out_buffer);
 };

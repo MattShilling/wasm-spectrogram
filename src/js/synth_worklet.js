@@ -12,10 +12,8 @@ class DualFmOscWorklet extends AudioWorkletProcessor {
         this.audioInBuffer = new Array(32);
         this.audioOutBuffer = new Array(32);
         for (let i = 0; i < numSamples; i++) {
-            this.audioInBuffer[i] = new this.kernel.AudioFrame();
-            this.audioInBuffer[i].chan_one = 5;
-            console.log(this.audioInBuffer[i].chan_one);
-            this.audioOutBuffer[i] = new this.kernel.AudioFrame();
+            this.audioInBuffer[i] = {chan: [0,0]};
+            this.audioOutBuffer[i] = {chan: [0,0]};
         }
 
         console.log("Worklet launched successfully");
@@ -31,12 +29,12 @@ class DualFmOscWorklet extends AudioWorkletProcessor {
         }
 
         // Run audio process.
-        this.dualFmOsc.process(this.audioInBuffer, this.audioOutBuffer);
+        const output = this.dualFmOsc.process(this.audioInBuffer, this.audioOutBuffer);
 
         // Copy audio output buffer to worklet outputs.
         for (let i = 0; i < this.audioOutBuffer.length; i++) {
-            outputs[0][0][i] = this.kernel.AudioFrame().scaleInput(this.audioOutBuffer[i].chan_one);
-            outputs[0][1][i] = this.kernel.AudioFrame().scaleInput(this.audioOutBuffer[i].chan_two);
+            outputs[0][0][i] = this.kernel.AudioFrame.scaleInput(output[i].chan[0]);
+            outputs[0][1][i] = this.kernel.AudioFrame.scaleInput(output[i].chan[1]);
         }
 
         return true;

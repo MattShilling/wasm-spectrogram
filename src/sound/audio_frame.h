@@ -13,7 +13,7 @@
 
 template <typename SampleType, int UsedBits = sizeof(SampleType) * 8,
           int NumChannels = 2>
-class AudioFrame {
+struct AudioFrame {
   static_assert((sizeof(SampleType) * 8u) >= UsedBits,
                 "SampleType is smaller than the specified width");
 
