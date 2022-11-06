@@ -1,3 +1,7 @@
+
+add_subdirectory(math)
+add_subdirectory(sound)
+
 add_library(camera camera.cc)
 add_library(events events.cc)
 add_library(window window.cc)
@@ -21,3 +25,13 @@ target_link_libraries(main
 set_target_properties(main PROPERTIES
     LINK_FLAGS "-s USE_SDL=2 -s FULL_ES2=1 -s WASM=1 --bind"
 )
+
+# add_executable(synth synth.cc)
+# target_link_libraries(synth
+#     -Wl,--whole-archive
+#     dual_fm_osc
+#     audio_frame
+# )
+# set_target_properties(synth PROPERTIES
+#     LINK_FLAGS "-s WASM=1 --bind"
+# )
