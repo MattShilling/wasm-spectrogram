@@ -7,36 +7,32 @@ set -e
 # See CMakeLists.txt.
 BUILD_PATH="build/"
 
-# Set toolchain file.
-EMSCRIPTEN_MODULE=/home/matts/code/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
+BUILD_WITH_DOCKER=${BUILD_WITH_DOCKER:-0}
 
-# Initialize build.
-cmake \
-    -DCMAKE_TOOLCHAIN_FILE=${EMSCRIPTEN_MODULE} \
-    -B ${BUILD_PATH} \
-    -G Ninja
+# Set toolchain file.
+EMSCRIPTEN_TOOLCHAIN_DOCKER=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
+EMSCRIPTEN_TOOLCHAIN_LOCAL=/home/matts/code/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
+EMSCRIPTEN_TOOLCHAIN=${EMSCRIPTEN_TOOLCHAIN_LOCAL}
+
+if [ "${BUILD_WITH_DOCKER}" -eq "1" ]; then
+  EMSCRIPTEN_TOOLCHAIN=${EMSCRIPTEN_TOOLCHAIN_DOCKER}
+fi
 
 # Format.
 clang-format-11 src/**/*.h src/**/*.cc -i
 
-emcc src/math/math_tables.cc \
-  src/sound/audio_frame.cc \
-  src/sound/dual_fm_osc.cc \
-  -Isrc/ \
-  -std=c++14 \
-  -O1 \
-  -s WASM=1 \
-  -s ALLOW_MEMORY_GROWTH=1 \
-  -s WASM_ASYNC_COMPILATION=0 \
-  -s SINGLE_FILE=1 \
-  -s MODULARIZE=1 \
-  --bind \
-  -o public/synth.js
-
-cp src/js/app.js public/app.js
-mkdir -p public/worklets
-cat public/synth.js src/js/synth_worklet.js > public/worklets/synth_worklet.js
+# Initialize build.
+cmake \
+    -DCMAKE_TOOLCHAIN_FILE=${EMSCRIPTEN_TOOLCHAIN} \
+    -B ${BUILD_PATH} \
+    -G Ninja
 
 # Build.
-cd ${BUILD_PATH} && ninja
+cd ${BUILD_PATH} && cmake --build .
 
+cd ../
+
+# Move things around.
+cp src/js/app.js public/app.js
+mkdir -p public/worklets
+cp src/js/synth_worklet.js public/worklets/synth_worklet.js

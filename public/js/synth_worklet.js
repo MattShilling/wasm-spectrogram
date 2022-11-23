@@ -1,12 +1,13 @@
 //@format
-
-// import '../synth.js';
+import Module from '../synth.js';
 
 class DualFmOscWorklet extends AudioWorkletProcessor {
     constructor() {
         super();
-        this.kernel = Module();
-        this.dualFmOsc = new this.kernel.DualFmOsc();
+        Module().then(module => {
+            this.kernel = module;
+            this.dualFmOsc = new this.kernel.DualFmOsc();
+        });
 
         const numSamples = 32;
         this.audioInBuffer = new Array(32);
