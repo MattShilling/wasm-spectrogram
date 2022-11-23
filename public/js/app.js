@@ -1,7 +1,7 @@
 var audioContext = null;
 
 const startFmSynth = async (context, analyzer) => {
-  await context.audioWorklet.addModule('./worklets/synth_worklet.js');
+  await context.audioWorklet.addModule('./js/synth_worklet.js');
 
   const worklet = new AudioWorkletNode(context,
     "DualFmOscWorklet",
@@ -38,7 +38,6 @@ window.addEventListener('load', async () => {
       const HEIGHT = canvas.height;
       analyzer.fftSize = 256;
       const bufferLengthAlt = analyzer.frequencyBinCount;
-      console.log(bufferLengthAlt);
 
       // See comment above for Float32Array()
       const dataArrayAlt = new Uint8Array(bufferLengthAlt);
@@ -59,7 +58,6 @@ window.addEventListener('load', async () => {
 
         for (let i = 0; i < bufferLengthAlt; i++) {
           barHeight = dataArrayAlt[i];
-          console.log(barHeight);
 
           canvasCtx.fillStyle = "rgb(" + (barHeight + 100) + ",50,50)";
           canvasCtx.fillRect(

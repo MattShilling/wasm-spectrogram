@@ -7,12 +7,13 @@ set -e
 # See CMakeLists.txt.
 BUILD_PATH="build/"
 
-BUILD_WITH_DOCKER=${BUILD_WITH_DOCKER:-0}
-
 # Set toolchain file.
 EMSCRIPTEN_TOOLCHAIN_DOCKER=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
 EMSCRIPTEN_TOOLCHAIN_LOCAL=/home/matts/code/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
 EMSCRIPTEN_TOOLCHAIN=${EMSCRIPTEN_TOOLCHAIN_LOCAL}
+
+# Builds with docker. Set to 1 by run.sh to build in docker.
+BUILD_WITH_DOCKER=${BUILD_WITH_DOCKER:-0}
 
 if [ "${BUILD_WITH_DOCKER}" -eq "1" ]; then
   EMSCRIPTEN_TOOLCHAIN=${EMSCRIPTEN_TOOLCHAIN_DOCKER}
@@ -29,10 +30,3 @@ cmake \
 
 # Build.
 cd ${BUILD_PATH} && cmake --build .
-
-cd ../
-
-# Move things around.
-cp src/js/app.js public/app.js
-mkdir -p public/worklets
-cp src/js/synth_worklet.js public/worklets/synth_worklet.js

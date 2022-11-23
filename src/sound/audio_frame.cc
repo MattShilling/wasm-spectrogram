@@ -1,3 +1,8 @@
+/**
+ * @copyright Dan Green Copyright (c) 2022.
+ * Modified by Matt Shilling.
+ */
+
 #include <array>
 #include <cstdint>
 #include <type_traits>

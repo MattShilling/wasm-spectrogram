@@ -1,3 +1,8 @@
+/**
+ * @copyright Dan Green Copyright (c) 2022.
+ * Modified by Matt Shilling.
+ */
+
 #include "sound/dual_fm_osc.h"
 #include "sound/audio_stream_config.h"
 

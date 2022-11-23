@@ -1,4 +1,5 @@
 //@format
+
 import Module from '../synth.js';
 
 class DualFmOscWorklet extends AudioWorkletProcessor {

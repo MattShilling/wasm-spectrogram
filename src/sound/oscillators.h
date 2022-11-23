@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+#include "math/math_tables.h"
+
 // template<int UpdateRateHz>
 // struct ProtoOscillator {
 // 	ProtoOscillator(uint32_t freq);
@@ -102,8 +104,6 @@ private:
 };
 
 template <int UpdateRateHz> using RampOscillator = PhaseAccum<UpdateRateHz>;
-
-#include "math/math_tables.h"
 
 template <int UpdateRateHz> struct SineOscillator {
   SineOscillator(uint32_t freq) : _phaseacc{freq} {}

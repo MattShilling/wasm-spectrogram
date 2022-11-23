@@ -5,3 +5,5 @@ docker run \
   -v $(pwd):/src \
   -u $(id -u):$(id -g) \
   extended_emscripten
+
+python3 -m http.server --directory public/
