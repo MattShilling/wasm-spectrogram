@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 docker run \
   --rm \
   -v $(pwd):/src \
