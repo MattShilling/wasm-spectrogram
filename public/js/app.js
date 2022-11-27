@@ -1,13 +1,13 @@
 var audioContext = null;
 
-const startFmSynth = async (context, analyzer) => {
+const startFmSynth = async (context, destination) => {
   await context.audioWorklet.addModule('./js/synth_worklet.js');
 
   const worklet = new AudioWorkletNode(context,
     "DualFmOscWorklet",
     { outputChannelCount: [2] });
 
-  worklet.connect(analyzer);
+  worklet.connect(destination);
 };
 
 const startAnalyzer = function (context, destination) {
@@ -66,12 +66,27 @@ window.addEventListener('load', async () => {
   const startButton = document.getElementById('start-worklet-button');
   startButton.disabled = false;
   startButton.addEventListener('click', async () => {
-    // Worklet --> Analyzer --> Gain Node --> output.
+    //
+    // Worklet --> Gain Node --> Analyzer --> Master Gain Node --> output.
+    //
     audioContext = new AudioContext();
+
+    // Master Gain.
+    const masterGainNode = audioContext.createGain();
+    masterGainNode.connect(audioContext.destination);
+
+    // Analyzer.
+    const analyzer = startAnalyzer(audioContext, masterGainNode);
+
+    // Minor Gain.
+    // The synthesizer is really loud!
+    const defaultGain = 0.01 / 100; // 0.01%
     const gainNode = audioContext.createGain();
-    gainNode.connect(audioContext.destination);
-    const analyzer = startAnalyzer(audioContext, gainNode);
-    await startFmSynth(audioContext, analyzer);
+    gainNode.gain.value = defaultGain;
+    gainNode.connect(analyzer);
+
+    // FM Synthesizer.
+    await startFmSynth(audioContext, gainNode);
 
     // Visualizer.
     const canvas = document.querySelector(".visualizer");
@@ -89,11 +104,11 @@ window.addEventListener('load', async () => {
     muteButton.disabled = false;
     mute.onclick = () => {
       if (mute.className === "unmuted") {
-        gainNode.gain.value = 0.0;
+        masterGainNode.gain.value = 0.0;
         mute.className = "muted";
         mute.innerHTML = "Unmute";
       } else if (mute.className === "muted") {
-        gainNode.gain.value = 1.0;
+        masterGainNode.gain.value = 1.0;
         mute.className = "unmuted";
         mute.innerHTML = "Mute";
       }
