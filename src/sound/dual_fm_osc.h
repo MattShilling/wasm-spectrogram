@@ -18,11 +18,10 @@ const LookupTableMap kOscillatorTable{{"sin", &sinTable},
 
 class DualFmOsc {
   RampOscillator<48000> ramp{1};
-  // TriangleOscillator<48000> modulator{40};
+
   Oscillator<48000> modulator =
       Oscillator<48000>(40, kOscillatorTable, "triangle");
 
-  // SineOscillator<48000> carrier{250};
   Oscillator<48000> carrier = Oscillator<48000>(250, kOscillatorTable, "sin");
 
 public:

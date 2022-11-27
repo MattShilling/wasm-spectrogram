@@ -26,7 +26,8 @@ public:
 
   static inline constexpr SampleType scaleOutput(const float value);
 
-  static inline constexpr SampleType sign_extend(const SampleType value) noexcept;
+  static inline constexpr SampleType
+  sign_extend(const SampleType value) noexcept;
 
   std::array<SampleType, NumChannels> chan;
 };
