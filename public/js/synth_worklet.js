@@ -39,6 +39,8 @@ class DualFmOscWorklet extends AudioWorkletProcessor {
 
         // Copy audio output buffer to worklet outputs.
         for (let i = 0; i < this.audioOutBuffer.length; i++) {
+            // TODO: the 0.05 here is a volume scale.
+            // Without this, the synth is way too loud.
             outputs[0][0][i] = this.kernel.scaleInput(output[i].chan[0] * 0.05);
             outputs[0][1][i] = this.kernel.scaleInput(output[i].chan[1] * 0.05);
         }
