@@ -7,6 +7,8 @@
 
 template <typename T, unsigned int Size, typename PhaseT = float>
 struct InterpArray {
+  T min;
+  T max;
   T data[Size];
 
   T &operator[](const unsigned int index) { return data[index]; }
@@ -24,7 +26,8 @@ struct InterpArray {
       idx0 -= Size;
     const unsigned int idx1 = (idx0 == (Size - 1)) ? 0 : idx0 + 1;
 
-    return (data[idx1] * phase) + (data[idx0] * ((PhaseT)(1.) - phase));
+    return (data[idx1] * phase) +
+           (data[idx0] * (static_cast<PhaseT>(1.0) - phase));
     // return data[idx0] + (data[idx1] - data[idx0]) * phase;
     // return data[idx1] * index - data[idx1] * idx0 + data[idx0] - data[idx0] *
     // index + data[idx0]*idx0;
@@ -51,9 +54,10 @@ struct InterpArray {
   }
 
   // Return an interpolated value where phase = 0 returns the first element, and
-  // phase = 1 returns the last element phase > 1 or phase < 0 will cause
-  // undefined behavior! Caller must ensure 0 <= phase =< 1. Use interp_wrap()
-  // if you can't ensure this.
+  // phase = 1 returns the last element.
+  // NOTE: Phase > 1 or phase < 0 will cause undefined behavior!
+  // Caller must ensure 0 <= phase =< 1. Use interp_wrap() if you can't ensure
+  // this.
   constexpr T interp(const PhaseT phase) const {
     const PhaseT index = phase * (Size - 1);
     return interp_by_index(index);
