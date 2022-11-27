@@ -12,32 +12,36 @@
 
 template <typename SampleType, int UsedBits, int NumChannels>
 constexpr float
-AudioFrame<SampleType, UsedBits, NumChannels>::scaleInput(SampleType val) {
-  return sign_extend(val) / kOutScaling;
+AudioFrame<SampleType, UsedBits, NumChannels>::scaleInput(SampleType value) {
+  return sign_extend(value) / kOutScaling;
 }
 
 template <typename SampleType, int UsedBits, int NumChannels>
 inline constexpr SampleType
-AudioFrame<SampleType, UsedBits, NumChannels>::scaleOutput(const float val) {
+AudioFrame<SampleType, UsedBits, NumChannels>::scaleOutput(const float value) {
   if (std::is_signed<SampleType>::value) {
-    const float v =
-        MathTools::constrain(val, -1.f, (kOutScaling - 1.f) / kOutScaling);
-    return static_cast<SampleType>(v * kOutScaling);
+    const float constrained_value =
+        MathTools::constrain(value, -1.f, (kOutScaling - 1.f) / kOutScaling);
+    return static_cast<SampleType>(constrained_value * kOutScaling);
   } else {
-    const float v = MathTools::constrain(val * 0.5f + 0.5f, 0.f, 1.0f);
-    return static_cast<SampleType>(v) * (MathTools::ipow(2, UsedBits) - 1);
+    const float constrained_value =
+        MathTools::constrain(value * 0.5f + 0.5f, 0.f, 1.0f);
+    return static_cast<SampleType>(constrained_value) *
+           (MathTools::ipow(2, UsedBits) - 1);
   }
 }
 
 template <typename SampleType, int UsedBits, int NumChannels>
-inline constexpr SampleType
-AudioFrame<SampleType, UsedBits, NumChannels>::sign_extend(
-    const SampleType &v) noexcept {
-  if ((sizeof(SampleType) * 8u) == UsedBits) {
-    return v;
+constexpr SampleType AudioFrame<SampleType, UsedBits, NumChannels>::sign_extend(
+    const SampleType value) noexcept {
+  if ((sizeof(value) * 8u) == UsedBits) {
+    // No sign extension needed.
+    return value;
   } else {
-    using S = struct { signed Val : UsedBits; };
-    return reinterpret_cast<const S *>(&v)->Val;
+    struct {
+      signed value : UsedBits;
+    } s;
+    return s.value = value;
   }
 }
 

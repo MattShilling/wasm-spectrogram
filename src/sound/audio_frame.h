@@ -22,11 +22,11 @@ public:
   static constexpr unsigned kMaxValue = MathTools::ipow(2, UsedBits - 1);
   static constexpr float kOutScaling = static_cast<float>(kMaxValue);
 
-  static inline constexpr float scaleInput(SampleType val);
+  static inline constexpr float scaleInput(SampleType value);
 
-  static inline constexpr SampleType scaleOutput(const float val);
+  static inline constexpr SampleType scaleOutput(const float value);
 
-  static inline constexpr SampleType sign_extend(const SampleType &v) noexcept;
+  static inline constexpr SampleType sign_extend(const SampleType value) noexcept;
 
   std::array<SampleType, NumChannels> chan;
 };
