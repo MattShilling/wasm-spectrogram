@@ -13,12 +13,11 @@ DualFmOsc::process(AudioStreamConfig::AudioInBuffer &in_buffer,
     float freq_mult_1 = exp5Table.interp(ramp.process_float());
     modulator.set_frequency(40 * freq_mult_1);
 
-    float freq_mult_2 = exp5Table.interp(modulator.process_float());
+    float freq_mult_2 = exp5Table.interp(modulator.normalized_value());
     carrier.set_frequency(20 * freq_mult_2);
-    carrier.process();
 
-    out.chan[0] = modulator.val() >> 8;
-    out.chan[1] = carrier.val() >> 8;
+    out.chan[0] = modulator.value() >> 8;
+    out.chan[1] = carrier.value() >> 8;
   }
 
   return out_buffer;
