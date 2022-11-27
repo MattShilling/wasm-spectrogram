@@ -68,6 +68,10 @@ window.addEventListener('load', async () => {
   startButton.addEventListener('click', async () => {
     //
     // Worklet --> Gain Node --> Analyzer --> Master Gain Node --> output.
+    // 
+    // We attach the analyzer to the master gain node so that the user can still see the
+    // frequency plot with the audio muted. The gain node between the worklet and analyzer
+    // reduces the volume of the FM synth, which is very loud.
     //
     audioContext = new AudioContext();
 
@@ -79,7 +83,8 @@ window.addEventListener('load', async () => {
     const analyzer = startAnalyzer(audioContext, masterGainNode);
 
     // Minor Gain.
-    // The synthesizer is really loud!
+    // NOTE: The synthesizer is really loud!
+    // Take your headphones off when adjusting this value.
     const defaultGain = 0.01 / 100; // 0.01%
     const gainNode = audioContext.createGain();
     gainNode.gain.value = defaultGain;
