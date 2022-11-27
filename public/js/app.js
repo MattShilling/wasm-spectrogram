@@ -36,7 +36,7 @@ window.addEventListener('load', async () => {
     function visualize() {
       const WIDTH = canvas.width;
       const HEIGHT = canvas.height;
-      analyzer.fftSize = 256;
+      analyzer.fftSize = 2048;
       const bufferLengthAlt = analyzer.frequencyBinCount;
 
       // See comment above for Float32Array()

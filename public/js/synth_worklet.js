@@ -22,6 +22,10 @@ class DualFmOscWorklet extends AudioWorkletProcessor {
     }
   
     process(inputs, outputs, parameters) {
+        if (!this.kernel || !this.dualFmOsc) {
+            return true;
+        }
+
         // Copy worklet inputs to audio input buffer.
         if (inputs[0].length >= 1) {
             for (let i = 0; i < this.audioInBuffer.length; i++) {
